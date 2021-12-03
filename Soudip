@@ -1,0 +1,161 @@
+mysql> CREATE DATABASE Assignment;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE Assignment;
+Database changed
+mysql> CREATE TABLE SalesPeople
+    -> (Snum INT,
+    -> Sname VARCHAR(30),
+    -> City VARCHAR(30),
+    -> Comm INT);
+Query OK, 0 rows affected (0.05 sec)
+mysql> INSERT INTO SalesPeople (Snum, Sname, City, Comm)
+    -> VALUES (1001, 'Peel', 'London', 12),
+    -> (1002, 'Serres', 'Sanjose', 13),
+    -> (1004, 'Motika', 'London', 11),
+    -> (1007, 'Rifkin', 'Barcelona', 15),
+    -> (1003, 'Axelrod', 'Newyork', 10);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Customers
+    -> (Cnum INT,
+    -> Cname VARCHAR(30),
+    -> City VARCHAR(30),
+    -> Snum INT);
+Query OK, 0 rows affected (0.04 sec)
+mysql>  INSERT INTO Customers VALUES
+    ->  (2001, 'Hoffman', 'London', 1001),
+    -> (2002, 'Giovanni', 'Rome', 1003),
+    -> (2003, 'Liu', 'Sanjose', 1002),
+    -> (2004, 'Grass', 'Berlin', 1002),
+    -> (2006, 'Clemens', 'London', 1001),
+    ->  (2008, 'Cisneros', 'Sanjose', 1007),
+    ->   (2007, 'Pereira', 'Rome', 1004);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Orders
+    -> (Onum INT,
+    -> Amt FLOAT,
+    -> Odate DATE,
+    -> Cnum INT,
+    -> Snum INT);
+Query OK, 0 rows affected (0.04 sec)
+mysql> INSERT INTO Orders VALUES
+    -> (3001, 18.69, '1990-10-03', 2008, 1007),
+    -> (3003, 767.19, '1990-10-03', 2001, 1001),
+    -> (3002, 1900.10, '1990-10-03', 2007, 1004),
+    -> (3005, 5160.45, '1990-10-03', 2003, 1002),
+    -> (3006, 1098.16, '1990-10-03', 2008, 1007),
+    -> (3009, 1713.23, '1990-10-04', 2002, 1003),
+    -> (3007, 75.75, '1990-10-04', 2004, 1002),
+    -> (3008, 4273.00, '1990-10-05', 2006, 1001),
+    -> (3010, 1309.95, '1990-10-06', 2004, 1002),
+    -> (3011, 9891.88, '1990-10-06', 2006, 1001);
+    
+ mysql> SELECT * FROM SalesPeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    |   12 |
+| 1002 | Serres  | Sanjose   |   13 |
+| 1004 | Motika  | London    |   11 |
+| 1007 | Rifkin  | Barcelona |   15 |
+| 1003 | Axelrod | Newyork   |   10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Customers;
++------+----------+---------+------+
+| Cnum | Cname    | City    | Snum |
++------+----------+---------+------+
+| 2001 | Hoffman  | London  | 1001 |
+| 2002 | Giovanni | Rome    | 1003 |
+| 2003 | Liu      | Sanjose | 1002 |
+| 2004 | Grass    | Berlin  | 1002 |
+| 2006 | Clemens  | London  | 1001 |
+| 2008 | Cisneros | Sanjose | 1007 |
+| 2007 | Pereira  | Rome    | 1004 |
++------+----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 |  1900.1 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 |    4273 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+1st problem:
+
+mysql> SELECT Sname FROM SalesPeople
+    -> WHERE Sname like 'a%' OR
+    -> Sname like 'A%';
++---------+
+| Sname   |
++---------+
+| Axelrod |
++---------+
+1 row in set (0.01 sec)
+
+2nd problem:
+
+mysql> SELECT Snum,Amt FROM Orders
+    -> WHERE Amt>2000
+    -> GROUP BY Snum ORDER BY Snum;
++------+---------+
+| Snum | Amt     |
++------+---------+
+| 1001 |    4273 |
+| 1002 | 5160.45 |
++------+---------+
+2 rows in set (0.01 sec)
+
+3rd problem:
+
+mysql> SELECT Sname FROM SalesPeople
+    -> WHERE City='Newyork';
++---------+
+| Sname   |
++---------+
+| Axelrod |
++---------+
+1 row in set (0.00 sec)
+
+4th problem:
+
+mysql> SELECT Sname, City FROM SalesPeople
+    -> WHERE City IN ('London','Paris');
++--------+--------+
+| Sname  | City   |
++--------+--------+
+| Peel   | London |
+| Motika | London |
++--------+--------+
+2 rows in set (0.00 sec)
+
+5th problem:
+
+mysql> SELECT Odate, Snum, Count(*) FROM Orders
+    -> GROUP BY Snum;
++------------+------+----------+
+| Odate      | Snum | Count(*) |
++------------+------+----------+
+| 1990-10-03 | 1007 |        2 |
+| 1990-10-03 | 1001 |        3 |
+| 1990-10-03 | 1004 |        1 |
+| 1990-10-03 | 1002 |        3 |
+| 1990-10-04 | 1003 |        1 |
++------------+------+----------+
+5 rows in set (0.00 sec)
